@@ -12,6 +12,7 @@ pub const Tokens = enum {
     meta_star, //*
     meta_plus, //+
     meta_comma, //,
+    meta_collon, //:
     meta_line, //-
     meta_quest, //?
     meta_brac_open, //[

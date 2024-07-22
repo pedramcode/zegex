@@ -3,8 +3,8 @@ const print = std.debug.print;
 pub const Tokens = @import("tokens.zig").Tokens;
 
 const Self = *Fsm;
-const ALLOWED_LITERALS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%&_/\"'`~ :;";
-const SPECIA_CHARS_FOR_ESCAPE = ".^$*+,-?[]{}|()\\";
+const ALLOWED_LITERALS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%&_/\"'`~ ;";
+const SPECIA_CHARS_FOR_ESCAPE = ".^$*+,-?[]{}|()\\:";
 
 pub const Unit = struct {
     token: Tokens,
@@ -127,6 +127,9 @@ pub const Fsm = struct {
             } else if (peeked == ')') {
                 self.state = Tokens.meta_prn_close;
                 self.next();
+            } else if (peeked == ':') {
+                self.state = Tokens.meta_collon;
+                self.next();
             } else if (peeked == '\\') {
                 self.state = Tokens.__esc;
                 self.next();
@@ -166,6 +169,7 @@ pub const Fsm = struct {
                 Tokens.meta_cur_open,
                 Tokens.meta_cur_close,
                 Tokens.meta_pipe,
+                Tokens.meta_collon,
                 Tokens.meta_prn_open,
                 Tokens.meta_prn_close,
                 => {
